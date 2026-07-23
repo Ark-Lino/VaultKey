@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Ark-Lino/VaultKey/releases/latest">
+  <a href="https://addons.mozilla.org/firefox/addon/vaultkey/">
     <img src="https://img.shields.io/github/v/release/Ark-Lino/VaultKey?style=flat-square&color=7c3aed" alt="Version">
   </a>
   <a href="https://github.com/Ark-Lino/VaultKey/blob/main/LICENSE">
@@ -58,13 +58,11 @@ Import your existing accounts from **Google Authenticator** via migration links,
 
 ## Installation
 
-### From GitHub Releases (Recommended)
+### From Firefox Add-ons (Recommended)
 
-1. Go to [Releases](https://github.com/Ark-Lino/VaultKey/releases/latest)
-2. Download the latest `.xpi` file
-3. Open Firefox and go to `about:debugging#/runtime/this-firefox`
-4. Click **"Load Temporary Add-on..."** and select the `.xpi` file
-5. VaultKey appears in your toolbar
+1. Go to [VaultKey on Firefox Add-ons](https://addons.mozilla.org/firefox/addon/vaultkey/)
+2. Click **"Add to Firefox"**
+3. VaultKey appears in your toolbar
 
 ### From Source
 

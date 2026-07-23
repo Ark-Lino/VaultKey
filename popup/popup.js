@@ -178,7 +178,7 @@ modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) c
 
 // Secret validation
 accSecret.addEventListener('input', () => {
-  const val = accSecret.value.trim();
+  const val = accSecret.value.trim().replace(/\s/g, '');
   if (!val) {
     secretStatus.textContent = '';
     secretStatus.className = 'secret-status';
@@ -196,7 +196,7 @@ accSecret.addEventListener('input', () => {
 // Form submit
 accountForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const secret = accSecret.value.trim().toUpperCase();
+  const secret = accSecret.value.trim().replace(/\s/g, '').toUpperCase();
   if (!validateBase32(secret)) {
     showToast('Invalid Base32 secret', 'error');
     return;
