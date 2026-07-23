@@ -109,7 +109,14 @@ validateBtn.addEventListener('click', () => {
     for (const a of pendingImport) {
       const div = document.createElement('div');
       div.className = 'import-preview-item';
-      div.innerHTML = `<span class="preview-name">${escapeHtml(a.name || 'Unnamed')}</span><span class="preview-issuer">${escapeHtml(a.issuer || '')}</span>`;
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'preview-name';
+      nameSpan.textContent = a.name || 'Unnamed';
+      const issuerSpan = document.createElement('span');
+      issuerSpan.className = 'preview-issuer';
+      issuerSpan.textContent = a.issuer || '';
+      div.appendChild(nameSpan);
+      div.appendChild(issuerSpan);
       importPreviewList.appendChild(div);
     }
     showToast(`Found ${pendingImport.length} account(s)`);

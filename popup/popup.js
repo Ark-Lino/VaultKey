@@ -273,7 +273,14 @@ importDecode.addEventListener('click', () => {
     for (const a of pendingImport) {
       const div = document.createElement('div');
       div.className = 'import-preview-item';
-      div.innerHTML = `<span class="preview-name">${escapeHtml(a.name || 'Unnamed')}</span><span class="preview-issuer">${escapeHtml(a.issuer || '')}</span>`;
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'preview-name';
+      nameSpan.textContent = a.name || 'Unnamed';
+      const issuerSpan = document.createElement('span');
+      issuerSpan.className = 'preview-issuer';
+      issuerSpan.textContent = a.issuer || '';
+      div.appendChild(nameSpan);
+      div.appendChild(issuerSpan);
       importPreviewList.appendChild(div);
     }
     importConfirm.style.display = 'inline-block';
@@ -339,30 +346,35 @@ async function renderAccounts() {
     }
     const remaining = getTimeRemaining(account.period);
 
-    card.innerHTML = `
-      <div class="account-header">
-        <input type="checkbox" class="select-checkbox" data-id="${account.id}">
-        <span class="account-name">${escapeHtml(account.name || 'Unnamed')}</span>
-        <span class="account-issuer">${escapeHtml(account.issuer || '')}</span>
-      </div>
-      <div class="totp-row">
-        <span class="totp-code" data-id="${account.id}">${formatCode(code, account.digits)}</span>
-        <svg class="timer-ring${settings.showTimerCircle === false ? ' hidden' : ''}" viewBox="0 0 36 36" data-period="${account.period}">
-          <circle class="timer-bg" cx="18" cy="18" r="14"/>
-          <circle class="timer-progress" cx="18" cy="18" r="14"
-            stroke-dasharray="${circumference}"
-            stroke-dashoffset="0"
-            data-circumference="${circumference}"/>
-          <text class="timer-text" x="18" y="18" text-anchor="middle" dominant-baseline="central" data-remaining="${remaining}">${remaining}</text>
-        </svg>
-      </div>
-      <div class="account-actions">
-        <button class="action-btn" data-action="copy" data-id="${account.id}">Copy</button>
-        <button class="action-btn" data-action="qr" data-id="${account.id}">QR</button>
-        <button class="action-btn" data-action="edit" data-id="${account.id}">Edit</button>
-        <button class="action-btn" data-action="url" data-id="${account.id}">URL</button>
-      </div>
-    `;
+    // Build card via DOMParser to avoid innerHTML warning
+    const timerHidden = settings.showTimerCircle === false ? ' hidden' : '';
+    const cardHTML = [
+      `<div class="account-header">`,
+        `<input type="checkbox" class="select-checkbox" data-id="${account.id}">`,
+        `<span class="account-name"></span>`,
+        `<span class="account-issuer"></span>`,
+      `</div>`,
+      `<div class="totp-row">`,
+        `<span class="totp-code" data-id="${account.id}">${formatCode(code, account.digits)}</span>`,
+        `<svg class="timer-ring${timerHidden}" viewBox="0 0 36 36" data-period="${account.period}">`,
+          `<circle class="timer-bg" cx="18" cy="18" r="14"/>`,
+          `<circle class="timer-progress" cx="18" cy="18" r="14" stroke-dasharray="${circumference}" stroke-dashoffset="0" data-circumference="${circumference}"/>`,
+          `<text class="timer-text" x="18" y="18" text-anchor="middle" dominant-baseline="central" data-remaining="${remaining}">${remaining}</text>`,
+        `</svg>`,
+      `</div>`,
+      `<div class="account-actions">`,
+        `<button class="action-btn" data-action="copy" data-id="${account.id}">Copy</button>`,
+        `<button class="action-btn" data-action="qr" data-id="${account.id}">QR</button>`,
+        `<button class="action-btn" data-action="edit" data-id="${account.id}">Edit</button>`,
+        `<button class="action-btn" data-action="url" data-id="${account.id}">URL</button>`,
+      `</div>`,
+    ].join('');
+    const parsed = new DOMParser().parseFromString(cardHTML, 'text/html');
+    const nameEl = parsed.querySelector('.account-name');
+    const issuerEl = parsed.querySelector('.account-issuer');
+    nameEl.textContent = account.name || 'Unnamed';
+    issuerEl.textContent = account.issuer || '';
+    while (parsed.body.firstChild) card.appendChild(parsed.body.firstChild);
 
     // Timer update
     const timerEl = card.querySelector('.timer-progress');
