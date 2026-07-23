@@ -40,6 +40,16 @@ Import your existing accounts from **Google Authenticator** via migration links,
 
 ---
 
+## Screenshots
+
+<p align="center">
+  <img src="Dark_Mode.png" alt="VaultKey Dark Mode" width="380">
+  &nbsp;&nbsp;
+  <img src="Light_Mode.png" alt="VaultKey Light Mode" width="380">
+</p>
+
+---
+
 ## Features
 
 | Feature | Description |
