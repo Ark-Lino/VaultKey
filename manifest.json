@@ -6,11 +6,9 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "vaultkey@extension",
-      "strict_min_version": "140.0",
+      "strict_min_version": "142.0",
       "data_collection_permissions": {
-        "isExempt": true,
-        "required": true,
-        "description": "VaultKey does not collect, store, or transmit any user data."
+        "required": ["none"]
       }
     }
   },
